@@ -6,6 +6,7 @@ import com.github.vaibhavsinha.kong.model.plugin.authentication.oauth2.Applicati
 import com.thanhtk.api.user.config.UserApiConfig;
 import com.thanhtk.api.user.exception.HandledException;
 import com.thanhtk.api.user.exception.InternalException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -16,6 +17,9 @@ import java.util.List;
 public class KongClientHelper {
 
     private KongClient kongClient;
+
+    @Autowired
+    private UserApiConfig userApiConfig;
 
     @PostConstruct
     private void init(){

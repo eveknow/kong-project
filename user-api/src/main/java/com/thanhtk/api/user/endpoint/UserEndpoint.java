@@ -11,6 +11,7 @@ import com.thanhtk.api.user.exception.InternalException;
 import com.thanhtk.api.user.log.UserApiLogger;
 import com.thanhtk.api.user.service.ServiceRef;
 import com.thanhtk.api.user.service.UserService;
+import com.thanhtk.api.user.validator.ValidatorService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,13 +61,14 @@ public class UserEndpoint {
     public UserResponse create(@RequestBody UserCreateRequest userCreateRequest) throws HandledException {
 
         try{
+            ValidatorService.validateCreate(userCreateRequest);
             UserResponse userResponse = userService.createUser(userCreateRequest);
             return userResponse;
         }catch (HandledException e){
-            logger.error("error ", e);
+            logger.error("Handled error ", e);
             throw e;
         }catch (Exception e){
-            logger.error("error ", e);
+            logger.error("Error ", e);
             throw new InternalException();
         }
     }
