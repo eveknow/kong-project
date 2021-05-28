@@ -2,6 +2,7 @@ package com.thanhtk.service.tracking.config;
 
 import com.thanhtk.service.tracking.db.entity.ConfigurationEntity;
 import com.thanhtk.service.tracking.db.repo.ConfigurationRepository;
+import org.apache.log4j.BasicConfigurator;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -33,6 +34,7 @@ public class TrackingConfig {
 
     @PostConstruct
     public void init(){
+//        BasicConfigurator.configure();
         List<ConfigurationEntity> configurationEntityList = configurationRepository.findAll();
         Map<String, String> configs = new HashMap<>();
         for (ConfigurationEntity cfg : configurationEntityList) {

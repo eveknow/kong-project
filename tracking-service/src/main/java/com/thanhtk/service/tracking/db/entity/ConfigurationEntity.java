@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "configuration", schema = "user_api", catalog = "")
+@Table(name = "configuration", catalog = "")
 public class ConfigurationEntity {
     private int id;
     private String cfgKey;

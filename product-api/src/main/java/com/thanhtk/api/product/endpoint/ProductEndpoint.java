@@ -1,6 +1,8 @@
 package com.thanhtk.api.product.endpoint;
 
 import com.thanhtk.api.product.client.middle.Product;
+import com.thanhtk.api.product.client.rabbit.ProductEvent;
+import com.thanhtk.api.product.client.rabbit.RabbitServiceImpl;
 import com.thanhtk.api.product.endpoint.request.ProductRequest;
 import com.thanhtk.api.product.endpoint.response.ProductResponse;
 import com.thanhtk.api.product.exception.HandledException;
@@ -9,6 +11,7 @@ import com.thanhtk.api.product.service.ServiceRef;
 import com.thanhtk.api.product.service.ProductService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,11 +27,19 @@ public class ProductEndpoint {
 
     public Logger logger = LogManager.getLogger(ProductEndpoint.class);
 
+    @Autowired
+    private RabbitServiceImpl rabbitService;
+
 
     @GetMapping(value = "/{id}")
-    public ProductResponse create(@PathVariable("id") String id) throws HandledException {
+    public ProductResponse create(@PathVariable("id") String id,
+                                  @RequestHeader("x-consumer-username") String userName) throws HandledException {
 
         try{
+            // Fire and forget
+            ProductEvent productEvent = new ProductEvent(userName, id);
+            rabbitService.sendEvent(productEvent);
+
             ProductResponse productResponse = new ProductResponse();
             ProductRequest productRequest = new ProductRequest();
             productRequest.setId(id);
