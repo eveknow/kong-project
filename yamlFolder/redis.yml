@@ -1,0 +1,23 @@
+version: '2'
+
+networks:
+    kong-net:
+        name: kong-net
+        driver: bridge
+        
+services:
+  redis:
+    image: docker.io/bitnami/redis:6.2
+    environment:
+      - REDIS_PASSWORD=Thanhtk@123
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    ports:
+      - '6379:6379'
+    volumes:
+      - 'redis_data:/bitnami/redis/data'
+    networks:
+          - kong-net 
+
+volumes:
+  redis_data:
+    driver: local

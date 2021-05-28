@@ -1,0 +1,15 @@
+version: '3.8'
+
+networks:
+    kong-net:
+        name: kong-net
+        driver: bridge
+services:
+    json-server:
+        image: eveknow/json-server:v1.0
+        restart: always
+        container_name: jsonserver
+        ports:
+            - "1006:8080"
+        networks:
+            - kong-net 
