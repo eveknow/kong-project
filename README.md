@@ -1,4 +1,4 @@
-# pycorp-rank
+# kong-design
 
 Guide:
 1. docker-compose -f kong.yml up -d --build
