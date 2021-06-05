@@ -1,4 +1,4 @@
-# pycorp-rank
+# kong-design
 
 Guide:
 1. docker-compose -f kong.yml up -d --build
@@ -13,5 +13,5 @@ Guide:
 
 Architecture Design:
 
-![alt text](https://github.com/eveknow/pycorp-rank/blob/843b1a8de60e62f5622f036ceedfe1b2f51d975f/AD.png?raw=true)
+![alt text](https://github.com/eveknow/pycorp-rank/blob/5891d13f495f786d4ed7428e34bdeea0ba28f348/AD.png?raw=true)
 
