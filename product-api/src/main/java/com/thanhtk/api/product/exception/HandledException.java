@@ -3,7 +3,7 @@ package com.thanhtk.api.product.exception;
 import lombok.Getter;
 
 @Getter
-public class HandledException extends Exception {
+public class HandledException extends RuntimeException {
     private final int code;
 
     HandledException(String message, int code) {

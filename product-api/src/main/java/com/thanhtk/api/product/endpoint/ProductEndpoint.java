@@ -7,6 +7,9 @@ import com.thanhtk.api.product.endpoint.request.ProductRequest;
 import com.thanhtk.api.product.endpoint.response.ProductResponse;
 import com.thanhtk.api.product.exception.HandledException;
 import com.thanhtk.api.product.exception.InternalException;
+import com.thanhtk.api.product.log.LogAction;
+import com.thanhtk.api.product.log.LogModel;
+import com.thanhtk.api.product.log.LogUtil;
 import com.thanhtk.api.product.service.ServiceRef;
 import com.thanhtk.api.product.service.ProductService;
 import org.apache.logging.log4j.LogManager;
@@ -14,6 +17,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.function.Supplier;
 
 @RestController()
 @RequestMapping("/products")
@@ -35,8 +40,8 @@ public class ProductEndpoint {
     public ProductResponse create(@PathVariable("id") String id,
                                   @RequestHeader("x-consumer-username") String userName) throws HandledException {
 
-        try{
-            // Fire and forget
+        LogModel logModel = new LogModel(LogAction.PRODUCT_GET, id);
+        Supplier<ProductResponse> supplier = () -> {
             ProductEvent productEvent = new ProductEvent(userName, id);
             rabbitService.sendEvent(productEvent);
 
@@ -46,13 +51,9 @@ public class ProductEndpoint {
             Product product = productService.get(productRequest);
             productResponse.setProduct(product);
             return productResponse;
-        }catch (HandledException e){
-            logger.error("Handled error ", e);
-            throw e;
-        }catch (Exception e){
-            logger.error("Error ", e);
-            throw new InternalException();
-        }
+        };
+        return LogUtil.log(logModel, supplier);
+
     }
 
 
