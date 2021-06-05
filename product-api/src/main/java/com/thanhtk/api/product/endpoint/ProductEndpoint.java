@@ -42,14 +42,16 @@ public class ProductEndpoint {
 
         LogModel logModel = new LogModel(LogAction.PRODUCT_GET, id);
         Supplier<ProductResponse> supplier = () -> {
+            ProductResponse productResponse = new ProductResponse();
+
             ProductEvent productEvent = new ProductEvent(userName, id);
             rabbitService.sendEvent(productEvent);
 
-            ProductResponse productResponse = new ProductResponse();
             ProductRequest productRequest = new ProductRequest();
             productRequest.setId(id);
             Product product = productService.get(productRequest);
             productResponse.setProduct(product);
+
             return productResponse;
         };
         return LogUtil.log(logModel, supplier);

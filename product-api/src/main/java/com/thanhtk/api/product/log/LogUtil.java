@@ -25,6 +25,9 @@ public class LogUtil {
         } catch (HandledException e) {
             logModel.setResponse(e.getMessage());
             throw e;
+        }catch (Exception e) {
+            logModel.setResponse(e.getMessage());
+            throw e;
         }finally {
             HandlerLog.accept(logModel);
         }
