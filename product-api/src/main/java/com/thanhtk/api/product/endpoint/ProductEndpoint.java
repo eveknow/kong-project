@@ -30,8 +30,6 @@ public class ProductEndpoint {
     @Autowired
     private ProductService productService;
 
-    public Logger logger = LogManager.getLogger(ProductEndpoint.class);
-
     @Autowired
     private RabbitServiceImpl rabbitService;
 
